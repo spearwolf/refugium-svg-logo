@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const DEBUG_STROKE = "rgba(255, 255, 0, .5)";
+
 //  -radius <- | -> +radius
 //          _----_
 //        /    |   \
@@ -16,9 +18,10 @@ const makePoint = (origin, radius, degree) => ({
 export function RefugiumLogo({ className, strokeWidth }) {
   const size = 100;
 
-  const bottomCircleRadius = 32;
+  const bottomCircleRadius = 40;
+  const bottomCircleOriginOffset = 10;
 
-  const longSideCurveInnerDegree = 21;
+  const longSideCurveInnerDegree = 16;
   const longSideCurveOuterDegree = 45;
 
   const halfSize = size / 2;
@@ -33,7 +36,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
 
   const originBottomCircle = {
     x: halfSize,
-    y: size,
+    y: size + bottomCircleOriginOffset,
   };
 
   const makeSideCurve = (innerDegree, outerDegree) => ({
@@ -70,7 +73,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
   const makeSideCurvePath = (start, end) => `
     M ${start.x},${start.y}
     C
-    ${start.x},${start.y - 30}
+    ${start.x},${start.y - 40}
     ${end.x},${end.y + 20}
     ${end.x}, ${end.y}
   `;
@@ -94,14 +97,14 @@ export function RefugiumLogo({ className, strokeWidth }) {
         <rect id="fullCanvas" x={0} y={0} width={size} height={size} />
         <circle
           id="mainInnerCircle"
-          cx={halfSize}
-          cy={halfSize}
+          cx={originMainCircle.x}
+          cy={originMainCircle.y}
           r={halfSize - strokeWidth}
         />
         <circle
           id="bottomInnerCircle"
-          cx={halfSize}
-          cy={size}
+          cx={originBottomCircle.x}
+          cy={originBottomCircle.y}
           r={bottomCircleRadius - strokeWidth}
         />
       </defs>
@@ -115,8 +118,8 @@ export function RefugiumLogo({ className, strokeWidth }) {
         <use xlinkHref="#mainInnerCircle" fill="black" />
       </mask>
       <circle
-        cx={halfSize}
-        cy={halfSize}
+        cx={originMainCircle.x}
+        cy={originMainCircle.y}
         r={halfSize}
         fill="currentColor"
         mask="url(#mainCircleHole)"
@@ -131,8 +134,8 @@ export function RefugiumLogo({ className, strokeWidth }) {
         <use xlinkHref="#bottomInnerCircle" fill="black" />
       </mask>
       <circle
-        cx={halfSize}
-        cy={size}
+        cx={originBottomCircle.x}
+        cy={originBottomCircle.y}
         r={bottomCircleRadius}
         fill="currentColor"
         mask="url(#bottomCircleHole)"
@@ -155,16 +158,22 @@ export function RefugiumLogo({ className, strokeWidth }) {
           long side curves
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
       */}
+      <path
+        d={longSideCurvePath.left}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={`${strokeWidth}px`}
+      />
       <line
         x1={longSideCurve.left.start.x}
         y1={longSideCurve.left.start.y}
         x2={longSideCurve.left.end.x}
         y2={longSideCurve.left.end.y}
-        stroke="#8ac"
+        stroke={DEBUG_STROKE}
         strokeWidth={0.5}
       />
       <path
-        d={longSideCurvePath.left}
+        d={longSideCurvePath.right}
         fill="none"
         stroke="currentColor"
         strokeWidth={`${strokeWidth}px`}
@@ -174,14 +183,8 @@ export function RefugiumLogo({ className, strokeWidth }) {
         y1={longSideCurve.right.start.y}
         x2={longSideCurve.right.end.x}
         y2={longSideCurve.right.end.y}
-        stroke="#8ac"
+        stroke={DEBUG_STROKE}
         strokeWidth={0.5}
-      />
-      <path
-        d={longSideCurvePath.right}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={`${strokeWidth}px`}
       />
       {/*
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
@@ -193,7 +196,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         y1={shortSideCurve.left.start.y}
         x2={shortSideCurve.left.end.x}
         y2={shortSideCurve.left.end.y}
-        stroke="#8ac"
+        stroke={DEBUG_STROKE}
         strokeWidth={0.5}
       />
       <line
@@ -201,7 +204,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         y1={shortSideCurve.right.start.y}
         x2={shortSideCurve.right.end.x}
         y2={shortSideCurve.right.end.y}
-        stroke="#8ac"
+        stroke={DEBUG_STROKE}
         strokeWidth={0.5}
       />
     </svg>
