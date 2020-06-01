@@ -3,4 +3,9 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+
+  background-image: url("/reference.jpg");
+  background-repeat: no-repeat;
+  background-position: 48% 64%;
+  background-size: 80vw;
 }

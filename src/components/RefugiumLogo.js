@@ -16,12 +16,12 @@ const makePoint = (origin, radius, degree) => ({
 export function RefugiumLogo({ className, strokeWidth }) {
   const size = 100;
 
-  const longSideCurveInnerDegree = 25;
+  const bottomCircleRadius = 32;
+
+  const longSideCurveInnerDegree = 21;
   const longSideCurveOuterDegree = 45;
 
   const halfSize = size / 2;
-
-  const bottomCircleRadius = halfSize / 1.5;
 
   const shortSideCurveInnerDegree = longSideCurveInnerDegree * 2;
   const shortSideCurveOuterDegree = longSideCurveOuterDegree * 2;
@@ -64,6 +64,22 @@ export function RefugiumLogo({ className, strokeWidth }) {
     right: makeSideCurve(
       180 - shortSideCurveInnerDegree,
       180 - shortSideCurveOuterDegree
+    ),
+  };
+
+  const makeSideCurvePath = (start, end) => `
+    M ${start.x},${start.y}
+    C
+    ${start.x},${start.y - 30}
+    ${end.x},${end.y + 20}
+    ${end.x}, ${end.y}
+  `;
+
+  const longSideCurvePath = {
+    left: makeSideCurvePath(longSideCurve.left.start, longSideCurve.left.end),
+    right: makeSideCurvePath(
+      longSideCurve.right.start,
+      longSideCurve.right.end
     ),
   };
 
@@ -136,7 +152,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
       />
       {/*
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
-          long side lines
+          long side curves
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
       */}
       <line
@@ -145,6 +161,12 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={longSideCurve.left.end.x}
         y2={longSideCurve.left.end.y}
         stroke="#8ac"
+        strokeWidth={0.5}
+      />
+      <path
+        d={longSideCurvePath.left}
+        fill="none"
+        stroke="currentColor"
         strokeWidth={`${strokeWidth}px`}
       />
       <line
@@ -153,11 +175,17 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={longSideCurve.right.end.x}
         y2={longSideCurve.right.end.y}
         stroke="#8ac"
+        strokeWidth={0.5}
+      />
+      <path
+        d={longSideCurvePath.right}
+        fill="none"
+        stroke="currentColor"
         strokeWidth={`${strokeWidth}px`}
       />
       {/*
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
-          short side lines
+          short side curves
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
       */}
       <line
@@ -166,7 +194,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={shortSideCurve.left.end.x}
         y2={shortSideCurve.left.end.y}
         stroke="#8ac"
-        strokeWidth={`${strokeWidth}px`}
+        strokeWidth={0.5}
       />
       <line
         x1={shortSideCurve.right.start.x}
@@ -174,7 +202,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={shortSideCurve.right.end.x}
         y2={shortSideCurve.right.end.y}
         stroke="#8ac"
-        strokeWidth={`${strokeWidth}px`}
+        strokeWidth={0.5}
       />
     </svg>
   );
