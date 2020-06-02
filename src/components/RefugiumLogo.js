@@ -75,19 +75,43 @@ function RefugiumLogo({
     ),
   };
 
-  const makeSideCurvePath = (start, end) => `
+  const longSideCurveCubicOffset = {
+    start: {
+      x: 0,
+      y: -29,
+    },
+    end: {
+      x: 4,
+      y: 35
+    },
+  };
+
+  const makeSideCurvePath = (start, end, startOffset, endOffset) => `
     M ${start.x},${start.y}
     C
-    ${start.x},${start.y - 40}
-    ${end.x},${end.y + 20}
+    ${start.x + startOffset.x},${start.y + startOffset.y}
+    ${end.x + endOffset.x},${end.y + endOffset.y}
     ${end.x}, ${end.y}
   `;
 
   const longSideCurvePath = {
-    left: makeSideCurvePath(longSideCurve.left.start, longSideCurve.left.end),
+    left: makeSideCurvePath(
+      longSideCurve.left.start,
+      longSideCurve.left.end,
+      longSideCurveCubicOffset.start,
+      longSideCurveCubicOffset.end,
+    ),
     right: makeSideCurvePath(
       longSideCurve.right.start,
       longSideCurve.right.end,
+      {
+        x: -longSideCurveCubicOffset.start.x,
+        y: longSideCurveCubicOffset.start.y,
+      },
+      {
+        x: -longSideCurveCubicOffset.end.x,
+        y: longSideCurveCubicOffset.end.y,
+      },
     ),
   };
 
@@ -238,11 +262,11 @@ RefugiumLogo.propTypes = {
 
 RefugiumLogo.defaultProps = {
   size: 100,
-  strokeWidth: 2,
-  bottomCircleRadius: 40,
-  bottomCircleVerticalOffset: 10,
-  longSideCurveInnerDegree: 16,
-  longSideCurveOuterDegree: 45,
+  strokeWidth: 1,
+  bottomCircleRadius: 39,
+  bottomCircleVerticalOffset: 9,
+  longSideCurveInnerDegree: 15.5,
+  longSideCurveOuterDegree: 43,
 };
 
 export default React.memo(RefugiumLogo);

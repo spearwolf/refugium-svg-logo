@@ -12,7 +12,7 @@ const RefugiumLogoStyled = styled(RefugiumLogo)`
 function App() {
   return (
     <div className="App">
-      <RefugiumLogoStyled strokeWidth={3} />
+      <RefugiumLogoStyled />
     </div>
   );
 }
