@@ -1,4 +1,4 @@
-This is a *code sketch* &mdash; created by spearwolf
+This is a *code sketch* &mdash; created by [spearwolf](https://www.spearwolf.de)
 
 This application shows the *Beelitz Heilstätten Sanatorium* logo as `<svg>` painted with *javascript* + *react*.
 
