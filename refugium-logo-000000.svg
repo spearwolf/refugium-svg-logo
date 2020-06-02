@@ -1,0 +1,25 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><rect id="fullCanvas" x="0" y="0" width="100" height="100"></rect><circle id="mainInnerCircle" cx="50" cy="50" r="47"></circle><circle id="bottomInnerCircle" cx="50" cy="109" r="37.5"></circle></defs><mask id="mainCircleHole"><use xlink:href="#fullCanvas" fill="white"></use><use xlink:href="#mainInnerCircle" fill="black"></use></mask><circle cx="50" cy="50" r="50" fill="#000000" mask="url(#mainCircleHole)"></circle><mask id="bottomCircleHole"><use xlink:href="#mainInnerCircle" fill="white"></use><use xlink:href="#bottomInnerCircle" fill="black"></use></mask><circle cx="50" cy="109" r="39" fill="#000000" mask="url(#bottomCircleHole)"></circle><line x1="50" y1="1.5" x2="50" y2="98.5" stroke="#000000" stroke-width="1.5px"></line><path d="
+    M 39.77813211500667,72.14113516477016
+    C
+    39.77813211500667,43.14113516477016
+    20.411580766921944,48.980830195255855
+    16.411580766921944, 13.980830195255855
+  " fill="none" stroke="#000000" stroke-width="1.5px"></path><path d="
+    M 60.22186788499333,72.14113516477016
+    C
+    60.22186788499333,43.14113516477016
+    79.58841923307806,48.980830195255855
+    83.58841923307806, 13.980830195255855
+  " fill="none" stroke="#000000" stroke-width="1.5px"></path><path d="
+    M 26.450948568793567,78.85858867454289
+    C
+    21.450948568793567,60.85858867454289
+    10.757501013547731,65.8595310170362
+    0.7575010135477314, 50.859531017036204
+  " fill="none" stroke="#000000" stroke-width="1.5px"></path><path d="
+    M 73.54905143120644,78.85858867454289
+    C
+    78.54905143120644,60.85858867454289
+    89.24249898645226,65.8595310170362
+    99.24249898645226, 50.859531017036204
+  " fill="none" stroke="#000000" stroke-width="1.5px"></path></svg>

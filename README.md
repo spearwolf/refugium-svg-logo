@@ -1,3 +1,13 @@
+This is a *code sketch* &mdash; created by spearwolf
+
+This application shows the *Beelitz Heilstätten Sanatorium* logo as `<svg>` painted with *javascript* + *react*.
+
+You can download the final svg image if you want.
+
+![refugium-logo](./refugium-logo-000000.svg)
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

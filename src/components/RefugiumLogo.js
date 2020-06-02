@@ -17,6 +17,7 @@ const makePoint = (origin, radius, degree) => ({
 });
 
 function RefugiumLogo({
+  color,
   size,
   strokeWidth,
   outerStrokeWidth,
@@ -26,6 +27,7 @@ function RefugiumLogo({
   longSideCurveOuterDegree,
   shortSideCurveInnerDegree,
   shortSideCurveOuterDegree,
+  showGuideLines,
   className,
 }) {
   const halfSize = size / 2; // => mainCircleRadius
@@ -193,7 +195,7 @@ function RefugiumLogo({
         cx={originMainCircle.x}
         cy={originMainCircle.y}
         r={halfSize}
-        fill="currentColor"
+        fill={color}
         mask="url(#mainCircleHole)"
       />
       {/*
@@ -209,7 +211,7 @@ function RefugiumLogo({
         cx={originBottomCircle.x}
         cy={originBottomCircle.y}
         r={bottomCircleRadius}
-        fill="currentColor"
+        fill={color}
         mask="url(#bottomCircleHole)"
       />
       {/*
@@ -222,7 +224,7 @@ function RefugiumLogo({
         y1={verticalLine.start.y}
         x2={verticalLine.end.x}
         y2={verticalLine.end.y}
-        stroke="currentColor"
+        stroke={color}
         strokeWidth={`${strokeWidth}px`}
       />
       {/*
@@ -233,31 +235,35 @@ function RefugiumLogo({
       <path
         d={longSideCurvePath.left}
         fill="none"
-        stroke="currentColor"
+        stroke={color}
         strokeWidth={`${strokeWidth}px`}
       />
       <path
         d={longSideCurvePath.right}
         fill="none"
-        stroke="currentColor"
+        stroke={color}
         strokeWidth={`${strokeWidth}px`}
       />
-      <line
-        x1={longSideCurve.left.start.x}
-        y1={longSideCurve.left.start.y}
-        x2={longSideCurve.left.end.x}
-        y2={longSideCurve.left.end.y}
-        stroke={DEBUG_STROKE}
-        strokeWidth={DEBUG_STROKE_WIDTH}
-      />
-      <line
-        x1={longSideCurve.right.start.x}
-        y1={longSideCurve.right.start.y}
-        x2={longSideCurve.right.end.x}
-        y2={longSideCurve.right.end.y}
-        stroke={DEBUG_STROKE}
-        strokeWidth={DEBUG_STROKE_WIDTH}
-      />
+      {showGuideLines ? (
+        <>
+          <line
+            x1={longSideCurve.left.start.x}
+            y1={longSideCurve.left.start.y}
+            x2={longSideCurve.left.end.x}
+            y2={longSideCurve.left.end.y}
+            stroke={DEBUG_STROKE}
+            strokeWidth={DEBUG_STROKE_WIDTH}
+          />
+          <line
+            x1={longSideCurve.right.start.x}
+            y1={longSideCurve.right.start.y}
+            x2={longSideCurve.right.end.x}
+            y2={longSideCurve.right.end.y}
+            stroke={DEBUG_STROKE}
+            strokeWidth={DEBUG_STROKE_WIDTH}
+          />
+        </>
+      ) : null}
       {/*
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
           short side curves
@@ -266,45 +272,52 @@ function RefugiumLogo({
       <path
         d={shortSideCurvePath.left}
         fill="none"
-        stroke="currentColor"
+        stroke={color}
         strokeWidth={`${strokeWidth}px`}
       />
       <path
         d={shortSideCurvePath.right}
         fill="none"
-        stroke="currentColor"
+        stroke={color}
         strokeWidth={`${strokeWidth}px`}
       />
-      <line
-        x1={shortSideCurve.left.start.x}
-        y1={shortSideCurve.left.start.y}
-        x2={shortSideCurve.left.end.x}
-        y2={shortSideCurve.left.end.y}
-        stroke={DEBUG_STROKE}
-        strokeWidth={DEBUG_STROKE_WIDTH}
-      />
-      <line
-        x1={shortSideCurve.right.start.x}
-        y1={shortSideCurve.right.start.y}
-        x2={shortSideCurve.right.end.x}
-        y2={shortSideCurve.right.end.y}
-        stroke={DEBUG_STROKE}
-        strokeWidth={DEBUG_STROKE_WIDTH}
-      />
+      {showGuideLines ? (
+        <>
+          <line
+            x1={shortSideCurve.left.start.x}
+            y1={shortSideCurve.left.start.y}
+            x2={shortSideCurve.left.end.x}
+            y2={shortSideCurve.left.end.y}
+            stroke={DEBUG_STROKE}
+            strokeWidth={DEBUG_STROKE_WIDTH}
+          />
+          <line
+            x1={shortSideCurve.right.start.x}
+            y1={shortSideCurve.right.start.y}
+            x2={shortSideCurve.right.end.x}
+            y2={shortSideCurve.right.end.y}
+            stroke={DEBUG_STROKE}
+            strokeWidth={DEBUG_STROKE_WIDTH}
+          />
+        </>
+      ) : null}
     </svg>
   );
 }
 
 RefugiumLogo.propTypes = {
+  color: PropTypes.string,
   size: PropTypes.number,
   strokeWidth: PropTypes.number,
   bottomCircleRadius: PropTypes.number,
   bottomCircleVerticalOffset: PropTypes.number,
   longSideCurveInnerDegree: PropTypes.number,
   longSideCurveOuterDegree: PropTypes.number,
+  showGuideLines: PropTypes.bool,
 };
 
 RefugiumLogo.defaultProps = {
+  color: 'currentColor',
   size: 100,
   strokeWidth: 1.5,
   outerStrokeWidth: 3,
@@ -314,6 +327,7 @@ RefugiumLogo.defaultProps = {
   longSideCurveOuterDegree: 43,
   shortSideCurveInnerDegree: 38,
   shortSideCurveOuterDegree: 91,
+  showGuideLines: true,
 };
 
 export default React.memo(RefugiumLogo);
