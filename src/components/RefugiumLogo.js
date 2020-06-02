@@ -1,9 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const DEBUG_STROKE = "rgba(255, 255, 0, .5)";
+const DEBUG_STROKE = 'rgba(255, 0, 66, .5)';
+const DEBUG_STROKE_WIDTH = 0.5;
 
-//  -radius <- | -> +radius
+//  -degree <- | -> +degree
 //          _----_
 //        /    |   \
 //       | (origin) |
@@ -15,16 +16,16 @@ const makePoint = (origin, radius, degree) => ({
   y: origin.y + radius * Math.cos((degree * Math.PI) / 180),
 });
 
-export function RefugiumLogo({ className, strokeWidth }) {
-  const size = 100;
-
-  const bottomCircleRadius = 40;
-  const bottomCircleOriginOffset = 10;
-
-  const longSideCurveInnerDegree = 16;
-  const longSideCurveOuterDegree = 45;
-
-  const halfSize = size / 2;
+function RefugiumLogo({
+  size,
+  strokeWidth,
+  bottomCircleRadius,
+  bottomCircleVerticalOffset,
+  longSideCurveInnerDegree,
+  longSideCurveOuterDegree,
+  className,
+}) {
+  const halfSize = size / 2; // => mainCircleRadius
 
   const shortSideCurveInnerDegree = longSideCurveInnerDegree * 2;
   const shortSideCurveOuterDegree = longSideCurveOuterDegree * 2;
@@ -34,16 +35,20 @@ export function RefugiumLogo({ className, strokeWidth }) {
     y: halfSize,
   };
 
+  const mainCircleInnerRadius = halfSize - strokeWidth;
+
   const originBottomCircle = {
     x: halfSize,
-    y: size + bottomCircleOriginOffset,
+    y: size + bottomCircleVerticalOffset,
   };
+
+  const bottomCircleInnerRadius = bottomCircleRadius - strokeWidth;
 
   const makeSideCurve = (innerDegree, outerDegree) => ({
     start: makePoint(
       originBottomCircle,
       bottomCircleRadius - strokeWidth * 0.5,
-      innerDegree
+      innerDegree,
     ),
     end: makePoint(originMainCircle, halfSize - strokeWidth * 0.5, outerDegree),
   });
@@ -51,22 +56,22 @@ export function RefugiumLogo({ className, strokeWidth }) {
   const longSideCurve = {
     left: makeSideCurve(
       -(180 - longSideCurveInnerDegree),
-      -(180 - longSideCurveOuterDegree)
+      -(180 - longSideCurveOuterDegree),
     ),
     right: makeSideCurve(
       180 - longSideCurveInnerDegree,
-      180 - longSideCurveOuterDegree
+      180 - longSideCurveOuterDegree,
     ),
   };
 
   const shortSideCurve = {
     left: makeSideCurve(
       -(180 - shortSideCurveInnerDegree),
-      -(180 - shortSideCurveOuterDegree)
+      -(180 - shortSideCurveOuterDegree),
     ),
     right: makeSideCurve(
       180 - shortSideCurveInnerDegree,
-      180 - shortSideCurveOuterDegree
+      180 - shortSideCurveOuterDegree,
     ),
   };
 
@@ -82,8 +87,19 @@ export function RefugiumLogo({ className, strokeWidth }) {
     left: makeSideCurvePath(longSideCurve.left.start, longSideCurve.left.end),
     right: makeSideCurvePath(
       longSideCurve.right.start,
-      longSideCurve.right.end
+      longSideCurve.right.end,
     ),
+  };
+
+  const verticalLine = {
+    start: {
+      x: halfSize,
+      y: strokeWidth,
+    },
+    end: {
+      x: halfSize,
+      y: size - strokeWidth,
+    },
   };
 
   return (
@@ -99,13 +115,13 @@ export function RefugiumLogo({ className, strokeWidth }) {
           id="mainInnerCircle"
           cx={originMainCircle.x}
           cy={originMainCircle.y}
-          r={halfSize - strokeWidth}
+          r={mainCircleInnerRadius}
         />
         <circle
           id="bottomInnerCircle"
           cx={originBottomCircle.x}
           cy={originBottomCircle.y}
-          r={bottomCircleRadius - strokeWidth}
+          r={bottomCircleInnerRadius}
         />
       </defs>
       {/*
@@ -146,10 +162,10 @@ export function RefugiumLogo({ className, strokeWidth }) {
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
       */}
       <line
-        x1={halfSize}
-        y1={strokeWidth}
-        x2={halfSize}
-        y2={size - strokeWidth}
+        x1={verticalLine.start.x}
+        y1={verticalLine.start.y}
+        x2={verticalLine.end.x}
+        y2={verticalLine.end.y}
         stroke="currentColor"
         strokeWidth={`${strokeWidth}px`}
       />
@@ -170,7 +186,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={longSideCurve.left.end.x}
         y2={longSideCurve.left.end.y}
         stroke={DEBUG_STROKE}
-        strokeWidth={0.5}
+        strokeWidth={DEBUG_STROKE_WIDTH}
       />
       <path
         d={longSideCurvePath.right}
@@ -184,7 +200,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={longSideCurve.right.end.x}
         y2={longSideCurve.right.end.y}
         stroke={DEBUG_STROKE}
-        strokeWidth={0.5}
+        strokeWidth={DEBUG_STROKE_WIDTH}
       />
       {/*
         -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - --
@@ -197,7 +213,7 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={shortSideCurve.left.end.x}
         y2={shortSideCurve.left.end.y}
         stroke={DEBUG_STROKE}
-        strokeWidth={0.5}
+        strokeWidth={DEBUG_STROKE_WIDTH}
       />
       <line
         x1={shortSideCurve.right.start.x}
@@ -205,16 +221,28 @@ export function RefugiumLogo({ className, strokeWidth }) {
         x2={shortSideCurve.right.end.x}
         y2={shortSideCurve.right.end.y}
         stroke={DEBUG_STROKE}
-        strokeWidth={0.5}
+        strokeWidth={DEBUG_STROKE_WIDTH}
       />
     </svg>
   );
 }
 
 RefugiumLogo.propTypes = {
+  size: PropTypes.number,
   strokeWidth: PropTypes.number,
+  bottomCircleRadius: PropTypes.number,
+  bottomCircleVerticalOffset: PropTypes.number,
+  longSideCurveInnerDegree: PropTypes.number,
+  longSideCurveOuterDegree: PropTypes.number,
 };
 
 RefugiumLogo.defaultProps = {
+  size: 100,
   strokeWidth: 2,
+  bottomCircleRadius: 40,
+  bottomCircleVerticalOffset: 10,
+  longSideCurveInnerDegree: 16,
+  longSideCurveOuterDegree: 45,
 };
+
+export default React.memo(RefugiumLogo);
